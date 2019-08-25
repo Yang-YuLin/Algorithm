@@ -1,0 +1,66 @@
+package UndirectedGraph;
+
+import java.util.Iterator;
+
+/**
+ * 栈的链式存储——链式栈
+ */
+public class Stack<Item> implements Iterable<Item>{
+    private Node first; //链表的首结点
+    private int N;      //元素数量
+
+    private class Node{
+        Item item;
+        Node next;
+    }
+
+    public boolean isEmpty(){
+        return first == null;   //return N == 0;
+    }
+
+    public int size(){
+        return N;
+    }
+
+    /**
+     * 向栈顶添加元素
+     * @param item
+     */
+    public void push(Item item){
+        Node oldfirst = first;
+        first = new Node();
+        first.item = item;
+        first.next = oldfirst;
+        N++;
+    }
+
+    /**
+     * 从栈顶删除元素
+     * @return
+     */
+    public Item pop(){
+        Item item = first.item;
+        first = first.next;
+        N--;
+        return item;
+    }
+
+    @Override
+    public Iterator<Item> iterator() {
+        return new ListIterator();
+    }
+
+    private class ListIterator implements Iterator<Item>{
+        private Node current = first;   //记录链表的当前结点
+        public boolean hasNext(){
+            return current != null;
+        }
+        public void remove(){
+        }
+        public Item next(){
+            Item item = current.item;
+            current = current.next;
+            return item;
+        }
+    }
+}
